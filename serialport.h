@@ -96,17 +96,11 @@ private slots:
 private:
     QSerialPort m_serialPort;
     QByteArray m_readBuffer;
-    const uint8_t startSeq0 = '#';
-    const uint8_t startSeq1 = 'S';
-    const uint8_t startSeq2 = '#';
-    const uint8_t endSeq1 = 0x0D;
-    const uint8_t endSeq2 = 0x0A;
+    const uint8_t startSeq0 = 0xEA;
+    const uint8_t startSeq1 = 0x9B;
 
-    const QByteArray outgoingStartSequence = "#C#";
-    const QByteArray outgoingEndSequence = "\r\n";
     QByteArray buffer;
     uint8_t char_prev = 0;
-    uint8_t char_prevPrev;
     bool headerFound = false;
     bool footerFirstfound = false;
     bool footerSecondFound = false;
