@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     this->showMaximized();
-    this->setWindowTitle("PowerNexusv2.0.0");
+    this->setWindowTitle("PowerNexusv2.0.1");
 
     voltageMap.insert(3, 20);
     voltageMap.insert(7, 28);
