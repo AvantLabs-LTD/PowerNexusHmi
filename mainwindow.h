@@ -56,7 +56,9 @@ private:
 
 
     QFile file;
+    QFile cmdLogFile;
     QTextStream out;
+    QTextStream cmdLogOut;
     QMap<int, double> voltageMap;
 
     QString formatFloat(float value);
@@ -64,6 +66,7 @@ private:
     void logFileInit();
     QString stateparamsToCsv();
     QString getCSVHeaders();
+    QString getCmdLogCSVHeaders();
 signals:
     void sendCommand(const Command &cmd);
 };

@@ -90,6 +90,7 @@ MainWindow::~MainWindow()
     ////qDebug("closing file");
     // Close the file
     file.close();
+    cmdLogFile.close();
 
     delete ui;
 }
@@ -149,6 +150,12 @@ void MainWindow::onDataReceived(const Packet &data)
 
 void MainWindow::onDataSent(const QString &data)
 {
+
+    cmdLogOut <<  QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") << ", " << data << "\n";
+    cmdLogOut.flush();
+    cmdLogFile.flush();
+
+
     ui->serialDebug->setText(data);
 }
 
@@ -275,13 +282,23 @@ void MainWindow::logFileInit()
     // Create the file name
     QString fileName = QString("PowerNexus/logs-%1.csv").arg(currentDateTime);
 
+    QString cmdLogFileName = QString("PowerNexus/cmd-logs-%1.csv").arg(currentDateTime);
+
 
     // Construct the full file path
     QString filePath = QDir(documentsPath).filePath(fileName);
+    QString cmdFilePath = QDir(documentsPath).filePath(cmdLogFileName);
     file.setFileName(filePath);
+    cmdLogFile.setFileName(cmdFilePath);
 
     // Open or create the file
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Unable to open file for writing:" << filePath;
+        return;
+    }
+
+    // Open or create the file
+    if (!cmdLogFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "Unable to open file for writing:" << filePath;
         return;
     }
@@ -290,6 +307,11 @@ void MainWindow::logFileInit()
      out << getCSVHeaders() << "\n";
     out.flush();
     file.flush();
+
+    cmdLogOut.setDevice(&cmdLogFile);
+    cmdLogOut << getCmdLogCSVHeaders() << "\n";
+    cmdLogOut.flush();
+    cmdLogFile.flush();
 
 
 }
@@ -384,6 +406,21 @@ QString MainWindow::getCSVHeaders() {
     return headers.join(", ");
 }
 
+
+
+QString MainWindow::getCmdLogCSVHeaders() {
+    QStringList headers;
+
+    headers << "Timestamp"
+            << "Packet";
+
+
+
+
+
+
+    return headers.join(", ");
+}
 
 
 
