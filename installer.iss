@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PowerNexus"
-#define MyAppVersion "3.8.0"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "AvantLabs"
 #define MyAppURL "https://avantlabstech.com/"
 #define MyAppExeName "power-nexus.exe"
@@ -10,7 +10,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{7E349B95-FBFE-45A3-90F0-E48A7E1D25AF}}
+AppId={{D9AE3853-907E-4205-A921-798509104041}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -27,7 +27,7 @@ ArchitecturesAllowed=x64compatible
 ; meaning it should use the native 64-bit Program Files directory and
 ; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode=x64compatible
-DisableProgramGroupPage=yes
+DefaultGroupName={#MyAppName}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=mysetup
@@ -42,12 +42,12 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\OneDrive - Avant Labs\PowerNexus\power-nexus\build\Desktop_Qt_6_8_0_MinGW_64_bit-Release\release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\OneDrive - Avant Labs\PowerNexus\power-nexus\build\Desktop_Qt_6_8_0_MinGW_64_bit-Release\release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\nextcloud\PowerNexus\spectra\build\release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\nextcloud\PowerNexus\spectra\build\release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]

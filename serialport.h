@@ -83,6 +83,7 @@ signals:
     void connected();
     void disconnected();
     void dataReceived(const Packet &data);
+    void WrittenToPort(const QString &packet);
 
 public slots:
     void connectToSerialPort(const QString &portName, int baudRate);

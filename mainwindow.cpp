@@ -10,11 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->setupUi(this);
-    // auto makeTransparent = [](QWidget *w) {
-    //     auto *effect = new QGraphicsOpacityEffect(w);
-    //     effect->setOpacity(0.0);
-    //     w->setGraphicsEffect(effect);
-    // };
 
     auto applyShadow = [](QWidget *widget) {
         QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(widget);
@@ -31,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     applyShadow(ui->CommBox);
     applyShadow(ui->DataLinkBox);
     applyShadow(ui->SeekerBox);
-    applyShadow(ui->TwelveVBox);
+    applyShadow(ui->chargingBox_2);
 
     QPixmap logo(":/Resources/logo_white_bg.png");
     ui->logoLbl->setPixmap(logo);
@@ -57,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_serialPort, &SerialPort::connected, this, &MainWindow::handleConnected);
     connect(&m_serialPort, &SerialPort::disconnected, this, &MainWindow::handleDisconnected);
     connect(&m_serialPort, &SerialPort::dataReceived, this, &MainWindow::onDataReceived);
+    connect(&m_serialPort, &SerialPort::WrittenToPort, this, &MainWindow::onDataSent);
     connect(this, &MainWindow::sendCommand, &m_serialPort, &SerialPort::sendCommand);
 
     refreshPortList();
@@ -75,8 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->seekerCurrentDisp->display(formatFloat(0));
     ui->MagnoSoleVoltageDisp->display(formatFloat(0));
     ui->MagnoSoleCurrentDisp->display(formatFloat(0));
-    ui->twelveVVoltageDisp->display(formatFloat(0));
-    ui->twelveVCurrentDisp->display(formatFloat(0));
+    // ui->twelveVVoltageDisp->display(formatFloat(0));
+    // ui->twelveVCurrentDisp->display(formatFloat(0));
     ui->ActuatorOneVoltageDisp->display(formatFloat(0));
     ui->ActuatorOneCurrentDisp->display(formatFloat(0));
     ui->ActuatorTwoVoltageDisp->display(formatFloat(0));
@@ -151,33 +147,38 @@ void MainWindow::onDataReceived(const Packet &data)
 
 }
 
+void MainWindow::onDataSent(const QString &data)
+{
+    ui->serialDebug->setText(data);
+}
+
 
 void MainWindow::updateAll(){
     if(!toUpdate){
         return;
     }
-    ui->pktCounter->display(formatFloat(dataToShow.PacketCounter));
-    ui->frameTime->display(formatFloat(dataToShow.FrameTime));
-    ui->batteryVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryVoltage) / 100));
-    ui->batteryCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryCurrent) / 100));
-    ui->InasVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.InasVoltage) / 100));
-    ui->InasCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.InasCurrent) / 100));
-    ui->dataLinkVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkVoltage) / 100));
-    ui->dataLinkCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkCurrent) / 100));
-    ui->seekerVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.SeekerVoltage) / 100));
-    ui->seekerCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.SeekerCurrent) / 100));
-    ui->MagnoSoleVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleVoltage) / 100));
-    ui->MagnoSoleCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleCurrent) / 100));
-    ui->twelveVVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltVoltage) / 100));
-    ui->twelveVCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltCurrent) / 100));
-    ui->ActuatorOneVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneVoltage) / 100));
-    ui->ActuatorOneCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneCurrent) / 100));
-    ui->ActuatorTwoVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorTwoVoltage) / 100));
-    ui->ActuatorTwoCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorTwoCurrent) / 100));
-    ui->ActuatorThreeVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorThreeVoltage) / 100));
-    ui->ActuatorThreeCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorThreeCurrent) / 100));
-    ui->fiveVoltVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.fiveVoltVoltage) / 100));
-    ui->fiveVoltCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.fiveVoltCurrent) / 100));
+    ui->pktCounter->display(static_cast<int>(dataToShow.PacketCounter));
+    ui->frameTime->display(formatFloat(static_cast<float>(dataToShow.FrameTime) / 1000));
+    ui->batteryVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryVoltage) / 1000));
+    ui->batteryCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryCurrent) / 1000));
+    ui->InasVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.InasVoltage) / 1000));
+    ui->InasCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.InasCurrent) / 1000));
+    ui->dataLinkVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkVoltage) / 1000));
+    ui->dataLinkCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkCurrent) / 1000));
+    ui->seekerVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.SeekerVoltage) / 1000));
+    ui->seekerCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.SeekerCurrent) / 1000));
+    ui->MagnoSoleVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleVoltage) / 1000));
+    ui->MagnoSoleCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleCurrent) / 1000));
+    // ui->twelveVVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltVoltage) / 1000));
+    // ui->twelveVCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltCurrent) / 1000));
+    ui->ActuatorOneVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneVoltage) / 1000));
+    ui->ActuatorOneCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneCurrent) / 1000));
+    ui->ActuatorTwoVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorTwoVoltage) / 1000));
+    ui->ActuatorTwoCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorTwoCurrent) / 1000));
+    ui->ActuatorThreeVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorThreeVoltage) / 1000));
+    ui->ActuatorThreeCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorThreeCurrent) / 1000));
+    ui->fiveVoltVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.fiveVoltVoltage) / 1000));
+    ui->fiveVoltCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.fiveVoltCurrent) / 1000));
     ui->temperature->display(dataToShow.internalTemp);
 
     if(dataToShow.DataLinkStatus){
@@ -193,12 +194,12 @@ void MainWindow::updateAll(){
 
     }
 
-    if(dataToShow.TwelveVoltStatus){
-        ui->twelveVCtrlCheckBox->setCheckState(Qt::Checked);
-    }else{
-        ui->twelveVCtrlCheckBox->setCheckState(Qt::Unchecked);
+    // if(dataToShow.TwelveVoltStatus){
+    //     ui->twelveVCtrlCheckBox->setCheckState(Qt::Checked);
+    // }else{
+    //     ui->twelveVCtrlCheckBox->setCheckState(Qt::Unchecked);
 
-    }
+    // }
     ui->cmdCount->display(dataToShow.commandCounter);
     ui->lastCmd->display(dataToShow.lastCommand);
     ui->pktErrorCountDisp->display(dataToShow.pktErrorCounter);
@@ -416,14 +417,14 @@ void MainWindow::on_seekerCheckBox_clicked()
 
 void MainWindow::on_twelveVCtrlCheckBox_clicked()
 {
-    if(ui->twelveVCtrlCheckBox->checkState() == Qt::Checked){
-        Command cmd(TWELVE_V_CMD_ID, On);
-        sendCommand(cmd);
-    }else{
-        Command cmd(TWELVE_V_CMD_ID, Off);
-        sendCommand(cmd);
+    // if(ui->twelveVCtrlCheckBox->checkState() == Qt::Checked){
+    //     Command cmd(TWELVE_V_CMD_ID, On);
+    //     sendCommand(cmd);
+    // }else{
+    //     Command cmd(TWELVE_V_CMD_ID, Off);
+    //     sendCommand(cmd);
 
-    }
+    // }
 }
 
 

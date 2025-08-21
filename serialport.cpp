@@ -29,12 +29,12 @@ void SerialPort::onDataRx()
                 uint16_t computedCrc = calculateBufferCRC16();
 
                 // Extract last two bytes from packet
-                uint8_t crcHigh = static_cast<uint8_t>(dataRead.at(i - 1));
-                uint8_t crcLow  = static_cast<uint8_t>(dataRead.at(i));
+                uint8_t crcLow = static_cast<uint8_t>(dataRead.at(i - 1));
+                uint8_t crcHigh  = static_cast<uint8_t>(dataRead.at(i));
                 uint16_t receivedCrc = (static_cast<uint16_t>(crcHigh) << 8) | crcLow;
-                qDebug().nospace()
-                    << "Received CRC: 0x"
-                    << QString("%1").arg(receivedCrc, 4, 16, QLatin1Char('0')).toUpper();
+                // qDebug().nospace()
+                //     << "Received CRC: 0x"
+                //     << QString("%1").arg(receivedCrc, 4, 16, QLatin1Char('0')).toUpper();
 
 
                 if (computedCrc == receivedCrc) {
@@ -43,9 +43,6 @@ void SerialPort::onDataRx()
                     emit dataReceived(pkt);
                     buffer.clear();
                     buffer.resize(PACKET_LENGTH);
-                } else {
-                    //qDebug() << "CRC mismatch, computed:" << Qt::hex << computedCrc
-                    //         << "received:" << Qt::hex << receivedCrc;
                 }
 
                 headerFound = false;
@@ -54,7 +51,7 @@ void SerialPort::onDataRx()
 
 
         }
-        else if(dataRead.at(i) == startSeq1 && char_prev == startSeq0){
+        else if(static_cast<uchar>(dataRead.at(i)) == startSeq1 && char_prev == startSeq0){
             //qDebug() << "header found at byte: " << i;
             headerFound = true;
             s_counter = 0;
@@ -68,7 +65,7 @@ void SerialPort::onDataRx()
 Packet SerialPort::DeSerializePacket(){
         Packet pkt{};
         QDataStream stream(buffer);
-        stream.setByteOrder(QDataStream::BigEndian); // assuming your protocol is big-endian
+        stream.setByteOrder(QDataStream::LittleEndian); // assuming your protocol is little-endian
 
         stream >> pkt.PacketCounter;
         stream >> pkt.FrameTime;
@@ -115,38 +112,40 @@ Packet SerialPort::DeSerializePacket(){
         stream >> pkt.frameLengthMismatchErrCounter;
 
         // --- Debug dump ---
-        qDebug() << "PacketCounter:" << pkt.PacketCounter;
-        qDebug() << "FrameTime:" << pkt.FrameTime;
-        qDebug() << "Battery V/I:" << pkt.BatteryVoltage << pkt.BatteryCurrent;
-        qDebug() << "INAS V/I:" << pkt.InasVoltage << pkt.InasCurrent;
-        qDebug() << "DataLink V/I:" << pkt.DataLinkVoltage << pkt.DataLinkCurrent;
-        qDebug() << "Seeker V/I:" << pkt.SeekerVoltage << pkt.SeekerCurrent;
-        qDebug() << "MagnoSole V/I:" << pkt.MagnoSoleVoltage << pkt.MagnoSoleCurrent;
-        qDebug() << "12V Ctrl V/I:" << pkt.TwelveVoltVoltage << pkt.TwelveVoltCurrent;
-        qDebug() << "Actuator1 V/I:" << pkt.ActuatorOneVoltage << pkt.ActuatorOneCurrent;
-        qDebug() << "Actuator2 V/I:" << pkt.ActuatorTwoVoltage << pkt.ActuatorTwoCurrent;
-        qDebug() << "Actuator3 V/I:" << pkt.ActuatorThreeVoltage << pkt.ActuatorThreeCurrent;
-        qDebug() << "5V V/I:" << pkt.fiveVoltVoltage << pkt.fiveVoltCurrent;
-        qDebug() << "Internal Temp:" << pkt.internalTemp;
-        qDebug() << "Statuses -> DataLink:" << pkt.DataLinkStatus
-                 << " Seeker:" << pkt.SeekerStatus
-                 << " 12V:" << pkt.TwelveVoltStatus;
-        qDebug() << "Counters -> Cmd:" << pkt.commandCounter
-                 << " LastCmd:" << pkt.lastCommand
-                 << " PktErr:" << pkt.pktErrorCounter
-                 << " HeaderErr:" << pkt.headerErrCounter
-                 << " CrcErr:" << pkt.crcErrorCounter
-                 << " TimeoutErr:" << pkt.serialTimeoutCounter
-                 << " FrameLenErr:" << pkt.frameLengthMismatchErrCounter;
+        // qDebug() << "PacketCounter:" << pkt.PacketCounter;
+        // qDebug() << "FrameTime:" << pkt.FrameTime;
+        // qDebug() << "Battery V/I:" << pkt.BatteryVoltage << pkt.BatteryCurrent;
+        // qDebug() << "INAS V/I:" << pkt.InasVoltage << pkt.InasCurrent;
+        // qDebug() << "DataLink V/I:" << pkt.DataLinkVoltage << pkt.DataLinkCurrent;
+        // qDebug() << "Seeker V/I:" << pkt.SeekerVoltage << pkt.SeekerCurrent;
+        // qDebug() << "MagnoSole V/I:" << pkt.MagnoSoleVoltage << pkt.MagnoSoleCurrent;
+        // qDebug() << "12V Ctrl V/I:" << pkt.TwelveVoltVoltage << pkt.TwelveVoltCurrent;
+        // qDebug() << "Actuator1 V/I:" << pkt.ActuatorOneVoltage << pkt.ActuatorOneCurrent;
+        // qDebug() << "Actuator2 V/I:" << pkt.ActuatorTwoVoltage << pkt.ActuatorTwoCurrent;
+        // qDebug() << "Actuator3 V/I:" << pkt.ActuatorThreeVoltage << pkt.ActuatorThreeCurrent;
+        // qDebug() << "5V V/I:" << pkt.fiveVoltVoltage << pkt.fiveVoltCurrent;
+        // qDebug() << "Internal Temp:" << pkt.internalTemp;
+        // qDebug() << "Statuses -> DataLink:" << pkt.DataLinkStatus
+        //          << " Seeker:" << pkt.SeekerStatus
+        //          << " 12V:" << pkt.TwelveVoltStatus;
+        // qDebug() << "Counters -> Cmd:" << pkt.commandCounter
+        //          << " LastCmd:" << pkt.lastCommand
+        //          << " PktErr:" << pkt.pktErrorCounter
+        //          << " HeaderErr:" << pkt.headerErrCounter
+        //          << " CrcErr:" << pkt.crcErrorCounter
+        //          << " TimeoutErr:" << pkt.serialTimeoutCounter
+        //          << " FrameLenErr:" << pkt.frameLengthMismatchErrCounter;
         return pkt;
 }
 
 void SerialPort::connectToSerialPort(const QString &portName, int baudRate)
 {
+    qDebug() <<"connecting to serial port";
     m_serialPort.setPortName(portName);
     m_serialPort.setBaudRate(baudRate);
     if (m_serialPort.open(QIODevice::ReadWrite))
     {
+        qDebug() << "Connected";
         emit connected();
     }
 }
@@ -163,7 +162,8 @@ void SerialPort::sendCommand(const Command &cmd)
     QByteArray buff;
     buff.append(0xEB);
     buff.append(0x90);
-    buff.append(cmdCount);
+    buff.append(static_cast<char>(cmdCount & 0xFF));        // low byte
+    buff.append(static_cast<char>((cmdCount >> 8) & 0xFF)); // high byte
     buff.append(cmd.id);
     buff.append(cmd.status);
 
@@ -182,12 +182,13 @@ void SerialPort::sendCommand(const Command &cmd)
     }
 
     // Append CRC (big endian: high then low)
-    buff.append(static_cast<char>((crc >> 8) & 0xFF));
     buff.append(static_cast<char>(crc & 0xFF));
+    buff.append(static_cast<char>((crc >> 8) & 0xFF));
 
-    qDebug().nospace() << "Command sending [len=" << buff.size()
-                       << "] CRC=0x"
-                       << QString("%1").arg(crc, 4, 16, QLatin1Char('0')).toUpper();
+    QString msg = QString("%1")
+                      .arg(QString(buff.toHex(' ').toUpper()));
+    emit WrittenToPort(msg);
+
 
     m_serialPort.write(buff);
 

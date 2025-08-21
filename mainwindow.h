@@ -32,6 +32,7 @@ private slots:
     void handleConnected();
     void handleDisconnected();
     void onDataReceived(const Packet &data);
+    void onDataSent(const QString &data);
 
     void updateAll();
 
