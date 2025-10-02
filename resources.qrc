@@ -4,5 +4,6 @@
         <file>Resources/play_bw.png</file>
         <file>Resources/logo_white_bg.png</file>
         <file>Resources/app_icon.png</file>
+        <file>Resources/searching.png</file>
     </qresource>
 </RCC>

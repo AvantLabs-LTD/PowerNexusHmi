@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     applyShadow(ui->DataLinkBox);
     applyShadow(ui->SeekerBox);
     applyShadow(ui->chargingBox_2);
+    applyShadow(ui->twelveVoltBox);
 
     QPixmap logo(":/Resources/logo_white_bg.png");
     ui->logoLbl->setPixmap(logo);
@@ -36,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     this->showMaximized();
-    this->setWindowTitle("PowerNexusv2.0.1");
+    this->setWindowTitle("PowerNexusv2.0.4");
 
     voltageMap.insert(3, 20);
     voltageMap.insert(7, 28);
@@ -81,6 +82,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ActuatorThreeCurrentDisp->display(formatFloat(0));
     ui->fiveVoltVoltageDisp->display(formatFloat(0));
     ui->fiveVoltCurrentDisp->display(formatFloat(0));
+    ui->spareVolt1Disp->display(formatFloat(0));
+    ui->spareVolt2Disp->display(formatFloat(0));
+    ui->twelveVoltVoltageDisp->display(formatFloat(0));
+    ui->twelveVoltCurrentDisp->display(formatFloat(0));
+    ui->batteryPowerDisp->display(formatFloat(0));
+
+    ui->debugInfoBtn->setIcon(QIcon(":/Resources/searching.png"));
+    ui->spareVolt1Disp->setVisible(false);
+    ui->spareVolt2Disp->setVisible(false);
+    ui->spVolt1Lbl->setVisible(false);
+    ui->spVolt2Lbl->setVisible(false);
 
     logFileInit();
 }
@@ -168,6 +180,7 @@ void MainWindow::updateAll(){
     ui->frameTime->display(formatFloat(static_cast<float>(dataToShow.FrameTime) / 1000));
     ui->batteryVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryVoltage) / 1000));
     ui->batteryCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryCurrent) / 1000));
+    ui->batteryPowerDisp->display(formatFloat(static_cast<float>((dataToShow.BatteryCurrent * dataToShow.BatteryVoltage) / 1000000)));
     ui->InasVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.InasVoltage) / 1000));
     ui->InasCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.InasCurrent) / 1000));
     ui->dataLinkVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkVoltage) / 1000));
@@ -176,8 +189,8 @@ void MainWindow::updateAll(){
     ui->seekerCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.SeekerCurrent) / 1000));
     ui->MagnoSoleVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleVoltage) / 1000));
     ui->MagnoSoleCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleCurrent) / 1000));
-    // ui->twelveVVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltVoltage) / 1000));
-    // ui->twelveVCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltCurrent) / 1000));
+    ui->twelveVoltVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltVoltage) / 1000));
+    ui->twelveVoltCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltCurrent) / 1000));
     ui->ActuatorOneVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneVoltage) / 1000));
     ui->ActuatorOneCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneCurrent) / 1000));
     ui->ActuatorTwoVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorTwoVoltage) / 1000));
@@ -186,6 +199,8 @@ void MainWindow::updateAll(){
     ui->ActuatorThreeCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorThreeCurrent) / 1000));
     ui->fiveVoltVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.fiveVoltVoltage) / 1000));
     ui->fiveVoltCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.fiveVoltCurrent) / 1000));
+    ui->spareVolt1Disp->display(formatFloat(static_cast<float>(dataToShow.spareVolt1) / 1000));
+    ui->spareVolt2Disp->display(formatFloat(static_cast<float>(dataToShow.spareVolt2) / 1000));
     ui->temperature->display(dataToShow.internalTemp);
 
     if(dataToShow.DataLinkStatus){
@@ -198,6 +213,12 @@ void MainWindow::updateAll(){
         ui->seekerCheckBox->setCheckState(Qt::Checked);
     }else{
         ui->seekerCheckBox->setCheckState(Qt::Unchecked);
+
+    }
+    if(dataToShow.TwelveVoltStatus){
+        ui->twelveVoltCheckBox->setCheckState(Qt::Checked);
+    }else{
+        ui->twelveVoltCheckBox->setCheckState(Qt::Unchecked);
 
     }
 
@@ -464,4 +485,32 @@ void MainWindow::on_twelveVCtrlCheckBox_clicked()
     // }
 }
 
+
+
+void MainWindow::on_debugInfoBtn_clicked()
+{
+    static bool visible = false;
+
+    visible = !visible;
+    ui->spareVolt1Disp->setVisible(visible);
+    ui->spareVolt2Disp->setVisible(visible);
+    ui->spVolt1Lbl->setVisible(visible);
+    ui->spVolt2Lbl->setVisible(visible);
+
+}
+
+
+
+
+void MainWindow::on_twelveVoltCheckBox_clicked()
+{
+    if(ui->twelveVoltCheckBox->checkState() == Qt::Checked){
+        Command cmd(TWELVE_V_CMD_ID, On);
+        sendCommand(cmd);
+    }else{
+        Command cmd(TWELVE_V_CMD_ID, Off);
+        sendCommand(cmd);
+
+    }
+}
 

@@ -35,6 +35,8 @@ struct Packet {
     uint16_t ActuatorThreeCurrent;
     uint16_t fiveVoltVoltage;
     uint16_t fiveVoltCurrent;
+    uint16_t spareVolt1;
+    uint16_t spareVolt2;
 
     int16_t internalTemp;
 

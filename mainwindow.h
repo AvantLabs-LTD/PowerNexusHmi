@@ -43,6 +43,11 @@ private slots:
 
     void on_twelveVCtrlCheckBox_clicked();
 
+    void on_debugInfoBtn_clicked();
+
+
+    void on_twelveVoltCheckBox_clicked();
+
 private:
     Ui::MainWindow *ui;
     SerialPort m_serialPort;

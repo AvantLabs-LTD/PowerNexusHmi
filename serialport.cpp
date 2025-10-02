@@ -91,9 +91,8 @@ Packet SerialPort::DeSerializePacket(){
         stream >> pkt.fiveVoltVoltage;
         stream >> pkt.fiveVoltCurrent;
 
-        // Skip 4 spare bytes
-        quint32 spare;
-        stream >> spare;
+        stream >> pkt.spareVolt1;
+        stream >> pkt.spareVolt2;
 
         stream >> pkt.internalTemp;
 
