@@ -36,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     this->showMaximized();
-    this->setWindowTitle("PowerNexusv2.0.5");
-    ui->versionLabel->setText("v2.0.5");
+    this->setWindowTitle("PowerNexusv2.0.7");
+    ui->versionLabel->setText("v2.0.7");
 
 
     timeTimer = new QTimer(this);
@@ -191,7 +191,8 @@ void MainWindow::updateAll(){
 
     float power_W = current_mA * voltage_V; // since mA * V = mW, divide by 1000 → W
 
-    ui->batteryPowerDisp->display(formatFloat(power_W));ui->InasVoltageDisp->display(formatFloat(power_W));
+    ui->batteryPowerDisp->display(formatFloat(power_W));
+    ui->InasVoltageDisp->display(formatFloat(dataToShow.InasVoltage / 1000));
     ui->InasCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.InasCurrent) / 1000));
     ui->dataLinkVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkVoltage) / 1000));
     ui->dataLinkCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkCurrent) / 1000));
