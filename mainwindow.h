@@ -35,9 +35,8 @@ private slots:
     void onDataSent(const QString &data);
 
     void updateAll();
+    void onTimeTimerTimeout();
 
-
-    void on_dataLinkCheckBox_clicked();
 
     void on_seekerCheckBox_clicked();
 
@@ -54,6 +53,7 @@ private:
     bool isConnected = false;
     Packet dataToShow;
     QTimer *timer;
+    QTimer *timeTimer;
     bool toUpdate = false;
     int forcedChannel = 0;
 

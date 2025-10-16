@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     applyShadow(ui->navBarGroup);
     applyShadow(ui->chargingBox);
     applyShadow(ui->CommBox);
-    applyShadow(ui->DataLinkBox);
     applyShadow(ui->SeekerBox);
     applyShadow(ui->chargingBox_2);
     applyShadow(ui->twelveVoltBox);
@@ -37,7 +36,16 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     this->showMaximized();
-    this->setWindowTitle("PowerNexusv2.0.4");
+    this->setWindowTitle("PowerNexusv2.0.5");
+    ui->versionLabel->setText("v2.0.5");
+
+
+    timeTimer = new QTimer(this);
+    timeTimer->setInterval(1000);
+    timeTimer->start();
+
+    connect(timeTimer, &QTimer::timeout, this, &MainWindow::onTimeTimerTimeout);
+
 
     voltageMap.insert(3, 20);
     voltageMap.insert(7, 28);
@@ -84,8 +92,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fiveVoltCurrentDisp->display(formatFloat(0));
     ui->spareVolt1Disp->display(formatFloat(0));
     ui->spareVolt2Disp->display(formatFloat(0));
-    ui->twelveVoltVoltageDisp->display(formatFloat(0));
-    ui->twelveVoltCurrentDisp->display(formatFloat(0));
     ui->batteryPowerDisp->display(formatFloat(0));
 
     ui->debugInfoBtn->setIcon(QIcon(":/Resources/searching.png"));
@@ -180,8 +186,12 @@ void MainWindow::updateAll(){
     ui->frameTime->display(formatFloat(static_cast<float>(dataToShow.FrameTime) / 1000));
     ui->batteryVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryVoltage) / 1000));
     ui->batteryCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.BatteryCurrent) / 1000));
-    ui->batteryPowerDisp->display(formatFloat(static_cast<float>((dataToShow.BatteryCurrent * dataToShow.BatteryVoltage) / 1000000)));
-    ui->InasVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.InasVoltage) / 1000));
+    float current_mA = roundf((dataToShow.BatteryCurrent / 1000.0f) * 10.0f) / 10.0f;
+    float voltage_V  = roundf((dataToShow.BatteryVoltage  / 1000.0f) * 10.0f) / 10.0f;
+
+    float power_W = current_mA * voltage_V; // since mA * V = mW, divide by 1000 → W
+
+    ui->batteryPowerDisp->display(formatFloat(power_W));ui->InasVoltageDisp->display(formatFloat(power_W));
     ui->InasCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.InasCurrent) / 1000));
     ui->dataLinkVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkVoltage) / 1000));
     ui->dataLinkCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.DataLinkCurrent) / 1000));
@@ -189,8 +199,6 @@ void MainWindow::updateAll(){
     ui->seekerCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.SeekerCurrent) / 1000));
     ui->MagnoSoleVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleVoltage) / 1000));
     ui->MagnoSoleCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.MagnoSoleCurrent) / 1000));
-    ui->twelveVoltVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltVoltage) / 1000));
-    ui->twelveVoltCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.TwelveVoltCurrent) / 1000));
     ui->ActuatorOneVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneVoltage) / 1000));
     ui->ActuatorOneCurrentDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorOneCurrent) / 1000));
     ui->ActuatorTwoVoltageDisp->display(formatFloat(static_cast<float>(dataToShow.ActuatorTwoVoltage) / 1000));
@@ -203,12 +211,7 @@ void MainWindow::updateAll(){
     ui->spareVolt2Disp->display(formatFloat(static_cast<float>(dataToShow.spareVolt2) / 1000));
     ui->temperature->display(dataToShow.internalTemp);
 
-    if(dataToShow.DataLinkStatus){
-        ui->dataLinkCheckBox->setCheckState(Qt::Checked);
-    }else{
-        ui->dataLinkCheckBox->setCheckState(Qt::Unchecked);
 
-    }
     if(dataToShow.SeekerStatus){
         ui->seekerCheckBox->setCheckState(Qt::Checked);
     }else{
@@ -243,6 +246,12 @@ void MainWindow::updateAll(){
 
     toUpdate = false;
 
+}
+
+void MainWindow::onTimeTimerTimeout()
+{
+    QTime currentTime = QTime::currentTime();
+    ui->timeLabel->setText(currentTime.toString("HH:mm:ss"));
 }
 
 
@@ -447,17 +456,7 @@ QString MainWindow::getCmdLogCSVHeaders() {
 
 
 
-void MainWindow::on_dataLinkCheckBox_clicked()
-{
-    if(ui->dataLinkCheckBox->checkState() == Qt::Checked){
-        Command cmd(DATA_LINK_CMD_ID, On);
-        sendCommand(cmd);
-    }else{
-        Command cmd(DATA_LINK_CMD_ID, Off);
-        sendCommand(cmd);
 
-    }
-}
 
 
 void MainWindow::on_seekerCheckBox_clicked()
