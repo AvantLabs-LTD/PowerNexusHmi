@@ -24,9 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     applyShadow(ui->navBarGroup);
     applyShadow(ui->chargingBox);
     applyShadow(ui->CommBox);
-    applyShadow(ui->SeekerBox);
-    applyShadow(ui->chargingBox_2);
-    applyShadow(ui->twelveVoltBox);
+    // applyShadow(ui->chargingBox_2);
 
     QPixmap logo(":/Resources/logo_white_bg.png");
     ui->logoLbl->setPixmap(logo);
@@ -94,11 +92,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->spareVolt2Disp->display(formatFloat(0));
     ui->batteryPowerDisp->display(formatFloat(0));
 
-    ui->debugInfoBtn->setIcon(QIcon(":/Resources/searching.png"));
-    ui->spareVolt1Disp->setVisible(false);
-    ui->spareVolt2Disp->setVisible(false);
-    ui->spVolt1Lbl->setVisible(false);
-    ui->spVolt2Lbl->setVisible(false);
+    // ui->debugInfoBtn->setIcon(QIcon(":/Resources/searching.png"));
+    // ui->spareVolt1Disp->setVisible(false);
+    // ui->spareVolt2Disp->setVisible(false);
+    // ui->spVolt1Lbl->setVisible(false);
+    // ui->spVolt2Lbl->setVisible(false);
 
     logFileInit();
 }
@@ -491,11 +489,11 @@ void MainWindow::on_debugInfoBtn_clicked()
 {
     static bool visible = false;
 
-    visible = !visible;
-    ui->spareVolt1Disp->setVisible(visible);
-    ui->spareVolt2Disp->setVisible(visible);
-    ui->spVolt1Lbl->setVisible(visible);
-    ui->spVolt2Lbl->setVisible(visible);
+    // visible = !visible;
+    // ui->spareVolt1Disp->setVisible(visible);
+    // ui->spareVolt2Disp->setVisible(visible);
+    // ui->spVolt1Lbl->setVisible(visible);
+    // ui->spVolt2Lbl->setVisible(visible);
 
 }
 
