@@ -36,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     this->showMaximized();
-    this->setWindowTitle("PowerNexusv2.0.8");
-    ui->versionLabel->setText("v2.0.8");
+    this->setWindowTitle("PowerNexusv2.0.9");
+    ui->versionLabel->setText("v2.0.9");
 
 
     timeTimer = new QTimer(this);

@@ -189,7 +189,23 @@
          <string>AV Battery</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_7">
-         <item row="1" column="6">
+         <item row="1" column="7">
+          <widget class="QLCDNumber" name="batteryPowerDisp">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
           <widget class="QLCDNumber" name="batteryCurrentDisp">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -217,7 +233,23 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="7">
+         <item row="0" column="0">
+          <spacer name="verticalSpacer_13">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="6">
           <widget class="QLabel" name="label_2">
            <property name="minimumSize">
             <size>
@@ -236,23 +268,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="4">
-          <spacer name="horizontalSpacer_18">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="3">
+         <item row="1" column="2">
           <widget class="QLCDNumber" name="batteryVoltageDisp">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -280,40 +296,23 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QPushButton" name="pushButton_status_10">
-           <property name="enabled">
-            <bool>false</bool>
+         <item row="1" column="3">
+          <spacer name="horizontalSpacer_18">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
            </property>
-           <property name="minimumSize">
+           <property name="sizeHint" stdset="0">
             <size>
-             <width>56</width>
-             <height>26</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>56</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">opacity: 0;
-                                                    hidden: true;
-                                                    border: 0px;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
+          </spacer>
          </item>
-         <item row="1" column="5">
+         <item row="1" column="4">
           <widget class="QLabel" name="label_18_v_7">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -338,7 +337,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
+         <item row="1" column="0">
           <widget class="QLabel" name="label_24">
            <property name="minimumSize">
             <size>
@@ -354,54 +353,6 @@
            </property>
            <property name="text">
             <string>Voltage (V)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <spacer name="verticalSpacer_13">
-           <property name="orientation">
-            <enum>Qt::Orientation::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="1">
-          <spacer name="horizontalSpacer_17">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="8">
-          <widget class="QLCDNumber" name="batteryPowerDisp">
-           <property name="minimumSize">
-            <size>
-             <width>120</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
            </property>
           </widget>
          </item>
@@ -456,13 +407,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>240</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>180</width>
+             <width>240</width>
              <height>60</height>
             </size>
            </property>
@@ -509,13 +460,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>240</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>180</width>
+             <width>240</width>
              <height>60</height>
             </size>
            </property>
@@ -581,13 +532,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>240</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>180</width>
+             <width>240</width>
              <height>60</height>
             </size>
            </property>
@@ -686,7 +637,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Packer Counter</string>
+            <string>Packet Counter</string>
            </property>
           </widget>
          </item>
@@ -700,13 +651,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>240</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>180</width>
+             <width>240</width>
              <height>60</height>
             </size>
            </property>
@@ -744,13 +695,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>240</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>180</width>
+             <width>240</width>
              <height>60</height>
             </size>
            </property>
@@ -966,13 +917,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>240</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>180</width>
+             <width>240</width>
              <height>60</height>
             </size>
            </property>
@@ -1090,7 +1041,7 @@
                                     </string>
         </property>
         <property name="title">
-         <string>Seeker Bus</string>
+         <string>28V Seeker Controlled</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="1" column="6">
@@ -1313,11 +1264,42 @@
                                     </string>
         </property>
         <property name="title">
-         <string>12V Bus</string>
+         <string>12V Controlled</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_88">
-         <item row="1" column="4">
-          <spacer name="horizontalSpacer_678">
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="twelveVoltCheckBox">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>56</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>56</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <spacer name="horizontalSpacer_99">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -1332,30 +1314,14 @@
            </property>
           </spacer>
          </item>
-         <item row="1" column="6">
-          <spacer name="horizontalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>120</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="2">
+         <item row="1" column="3">
           <widget class="QLabel" name="label_2020">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>120</width>
              <height>48</height>
             </size>
            </property>
@@ -1373,8 +1339,27 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="3">
-          <spacer name="horizontalSpacer_3">
+         <item row="1" column="6">
+          <widget class="QLabel" name="label_17">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <spacer name="horizontalSpacer_678">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -1383,7 +1368,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>120</width>
+             <width>20</width>
              <height>20</height>
             </size>
            </property>
@@ -1420,31 +1405,19 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="twelveVoltCheckBox">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_14">
            <property name="minimumSize">
             <size>
-             <width>56</width>
-             <height>26</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>56</width>
-             <height>30</height>
+             <width>150</width>
+             <height>16777215</height>
             </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
            </property>
            <property name="text">
             <string/>
@@ -1455,22 +1428,6 @@
           <spacer name="verticalSpacer_1010">
            <property name="orientation">
             <enum>Qt::Orientation::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Policy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="1">
-          <spacer name="horizontalSpacer_99">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeType">
             <enum>QSizePolicy::Policy::Fixed</enum>
@@ -1932,7 +1889,7 @@
             </size>
            </property>
            <property name="text">
-            <string>5V Sol-Mag Sensor</string>
+            <string>5V Sol-5V Mag-Sensor</string>
            </property>
           </widget>
          </item>
@@ -2165,28 +2122,6 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="5">
-          <widget class="QLCDNumber" name="InasCurrentDisp">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>180</width>
-             <height>16777215</height>
-            </size>
-           </property>
-          </widget>
-         </item>
          <item row="6" column="3">
           <widget class="QLabel" name="label_tpi">
            <property name="sizePolicy">
@@ -2203,34 +2138,6 @@
            </property>
            <property name="text">
             <string>V</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="5">
-          <widget class="QLCDNumber" name="dataLinkCurrentDisp">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>180</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>-1</pointsize>
-            </font>
            </property>
           </widget>
          </item>
@@ -2360,6 +2267,56 @@
              <width>180</width>
              <height>16777215</height>
             </size>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="QLCDNumber" name="InasCurrentDisp">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>180</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QLCDNumber" name="dataLinkCurrentDisp">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>180</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>-1</pointsize>
+            </font>
            </property>
           </widget>
          </item>
