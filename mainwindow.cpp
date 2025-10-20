@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     applyShadow(ui->navBarGroup);
     applyShadow(ui->chargingBox);
     applyShadow(ui->CommBox);
+    applyShadow(ui->analogInputBox);
     // applyShadow(ui->chargingBox_2);
 
     QPixmap logo(":/Resources/logo_white_bg.png");
@@ -34,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     this->showMaximized();
-    this->setWindowTitle("PowerNexusv2.0.9");
-    ui->versionLabel->setText("v2.0.9");
+    this->setWindowTitle("PowerNexusv2.1.0");
+    ui->versionLabel->setText("v2.1.0");
 
 
     timeTimer = new QTimer(this);
